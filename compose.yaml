@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  #Это конфигурация Docker Compose для службы базы данных MariaDB.
+  mariadb:
+    container_name: mariadb
+    deploy:
+      restart_policy:
+        condition: always
+        delay: 5s
+    env_file: mariadb.env
+    image: mariadb:latest
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+      traefik.enable: "false"
+    shm_size: 256mb
+    volumes:
+      - "/mnt/docker-volumes/db/mariadb:/var/lib/mysql"
+
+networks:
+  default:
+    external: true
+    name: $NETWORK
